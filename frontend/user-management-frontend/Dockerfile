@@ -7,6 +7,9 @@ WORKDIR /usr/src/app
 # 3. package.json ve lock dosyasını kopyala
 COPY package*.json ./
 
+# NPM mirror (geçici sorunlara karşı)
+RUN npm config set registry https://registry.npmmirror.com
+
 # 4. Bağımlılıkları yükle
 RUN npm install
 
