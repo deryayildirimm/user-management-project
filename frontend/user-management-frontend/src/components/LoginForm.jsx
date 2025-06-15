@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext'; 
+import {jwtDecode} from 'jwt-decode';
 
 function LoginForm() {
   const [formData, setFormData] = useState({
@@ -8,7 +10,8 @@ function LoginForm() {
     password: ''
   });
 
-   const navigate = useNavigate();
+  const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleChange =  (e) => {
     setFormData(prev => ({
@@ -22,18 +25,27 @@ function LoginForm() {
 
      try {
       const response = await axios.post('http://localhost:8000/api/auth/login', formData);
+      const token = response.data.access_token;
+
+     login(token);
+
       console.log('Giriş başarılı:', response.data);
 
-      // JWT token'ı localStorage'a kaydet
-      localStorage.setItem('token', response.data.token);
+      const decoded = jwtDecode(token);
+      console.log("decoded veri" , decoded);
+      const role = decoded.role;
 
-      // Anasayfaya veya dashboard'a yönlendir
-      navigate('/');
+      // role'e göre yönlendirme
+      if (role === 'admin') {
+        navigate('/admin');
+      } else {
+        navigate('/');
+      }
     } catch (error) {
       console.error('Giriş hatası:', error.response?.data || error.message);
       alert("Giriş başarısız. Lütfen bilgilerinizi kontrol edin.");
     }
-    console.log('Giriş form verisi:', formData); // Şimdilik backend yerine burası
+    console.log('Giriş form verisi:', formData); 
   };
 
   return (

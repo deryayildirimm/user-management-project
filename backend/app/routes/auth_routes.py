@@ -5,7 +5,7 @@ from app.models.user_model import User
 from app.services.hashing_service import hash_password, verify_password
 from app.services.token_service import create_access_token
 from app.db.database import SessionLocal
-from app.models.enums.user_role_enum import UserRoleEnum
+from app.models.user_role_enum import UserRole
 
 router = APIRouter()
 
@@ -29,7 +29,7 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
     new_user = User(
         email=user.email, 
         password=hash_password(user.password),
-        role=UserRoleEnum.USER 
+        role=UserRole.USER 
         )
     db.add(new_user)
     db.commit()
