@@ -9,10 +9,12 @@ function App() {
   return (
     <>
       <Navbar/>
-      <main>
+      <main className="main-content">
       <Outlet />
       </main>
-     
+      <footer className="footer">
+        <p>&copy; {new Date().getFullYear()} Kullanıcı Yönetim Sistemi</p>
+      </footer>
     </>
   
   )

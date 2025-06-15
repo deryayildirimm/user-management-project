@@ -1,4 +1,7 @@
 import { useState } from "react";
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import FormContainer from '../components/FormContainer';
 
 function RegisterForm({ onSubmit }) {
   const [formData, setFormData] = useState({
@@ -7,6 +10,8 @@ function RegisterForm({ onSubmit }) {
     password: "",
   });
 
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     setFormData({ 
       ...formData, 
@@ -14,40 +19,49 @@ function RegisterForm({ onSubmit }) {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit(formData); // Parent (Register page) handles the API
+
+    try {
+      await axios.post('http://localhost:8000/api/auth/register', formData);
+      alert('Kayıt başarılı! Giriş yapabilirsiniz.');
+      navigate('/login');
+    } catch (error) {
+      console.error('Kayıt hatası:', error.response?.data || error.message);
+      alert('Kayıt başarısız. Lütfen tekrar deneyin.');
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Kayıt Ol</h2>
-      <input
-        type="text"
-        name="username"
-        placeholder="Kullanıcı Adı"
-        value={formData.username}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="email"
-        name="email"
-        placeholder="E-posta"
-        value={formData.email}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="password"
-        name="password"
-        placeholder="Şifre"
-        value={formData.password}
-        onChange={handleChange}
-        required
-      />
-      <button type="submit">Kayıt Ol</button>
-    </form>
+      <FormContainer title="Kayıt Ol">
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="userName"
+          placeholder="Kullanıcı Adı"
+          value={formData.userName}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="email"
+          name="email"
+          placeholder="E-posta"
+          value={formData.email}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Şifre"
+          value={formData.password}
+          onChange={handleChange}
+          required
+        />
+        <button type="submit">Kayıt Ol</button>
+      </form>
+    </FormContainer>
   );
 }
 

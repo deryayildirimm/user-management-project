@@ -1,5 +1,6 @@
 import { Link , useNavigate} from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import './Navbar.css';
 
 function Navbar() {
 
@@ -14,24 +15,25 @@ function Navbar() {
 
     return(
 
-    <nav>
-      <Link to="/">Home</Link>
-
-      {!isAuthenticated && (
-        <>
-          <Link to="/login">Login</Link>
-          <Link to="/register">Register</Link>
-        </>
-      )}
-
-      {isAuthenticated && (
-        <>
-          {role === "admin" && <Link to="/admin">Admin Panel</Link>}
-          {role === "user" && <Link to="/profile">My Profile</Link>}
-          <Link to="/secret">Secret Page</Link>
-          <button onClick={handleLogout}>Logout</button>
-        </>
-      )}
+    <nav className="navbar">
+      <div className="nav-left">
+        <Link to="/">Home</Link>
+      </div>
+      <div className="nav-right">
+        {!isAuthenticated && (
+          <>
+            <Link to="/login">Login</Link>
+            <Link to="/register">Register</Link>
+          </>
+        )}
+        {isAuthenticated && (
+          <>
+            <Link to="/profile">Profile</Link>
+            {role === "admin" && <Link to="/admin">Admin Panel</Link>}
+            <button onClick={logout}>Logout</button>
+          </>
+        )}
+      </div>
     </nav>
 
     );

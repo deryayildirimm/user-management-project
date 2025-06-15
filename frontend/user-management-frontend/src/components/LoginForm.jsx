@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext'; 
 import {jwtDecode} from 'jwt-decode';
+import FormContainer from '../components/FormContainer';
 
 function LoginForm() {
   const [formData, setFormData] = useState({
@@ -49,25 +50,27 @@ function LoginForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="email"
-        name="email"
-        placeholder="E-posta"
-        value={formData.email}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="password"
-        name="password"
-        placeholder="Şifre"
-        value={formData.password}
-        onChange={handleChange}
-        required
-      />
-      <button type="submit">Giriş Yap</button>
-    </form>
+     <FormContainer title="Giriş Yap">
+      <form onSubmit={handleSubmit}>
+        <input
+          type="email"
+          name="email"
+          placeholder="E-posta"
+          value={formData.email}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Şifre"
+          value={formData.password}
+          onChange={handleChange}
+          required
+        />
+        <button type="submit">Giriş Yap</button>
+      </form>
+    </FormContainer>
   );
 }
 

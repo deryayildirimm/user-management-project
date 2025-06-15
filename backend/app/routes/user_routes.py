@@ -1,0 +1,23 @@
+from fastapi import APIRouter, Depends
+from app.services.auth_service import verify_token
+from app.models.user_model import User
+from app.db.database import SessionLocal
+from sqlalchemy.orm import Session
+
+router = APIRouter(prefix="/api/users", tags=["Users"])
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+@router.get("/me")
+def get_my_profile(token_data: dict = Depends(verify_token), db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.email == token_data["username"]).first()
+    return {
+        "id": user.id,
+        "email": user.email,
+        "role": user.role.value
+    }
