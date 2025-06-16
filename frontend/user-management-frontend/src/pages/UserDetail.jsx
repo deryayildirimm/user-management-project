@@ -17,7 +17,6 @@ const UserDetail = () => {
         },
       })
       .then((res) => {
-        console.log("Gelen kullanıcı:", res.data);
         setUser(res.data);
       })
       .catch((err) => console.error("Kullanıcı detayı alınamadı", err));
@@ -25,7 +24,6 @@ const UserDetail = () => {
 
   if (!user) return <p>Yükleniyor...</p>;
 
-  console.log(user);
 
   return (
     <div className="user-detail-container">

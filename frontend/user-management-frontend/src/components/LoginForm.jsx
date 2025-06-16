@@ -30,10 +30,7 @@ function LoginForm() {
 
      login(token);
 
-      console.log('Giriş başarılı:', response.data);
-
       const decoded = jwtDecode(token);
-      console.log("decoded veri" , decoded);
       const role = decoded.role;
 
       // role'e göre yönlendirme
@@ -46,7 +43,6 @@ function LoginForm() {
       console.error('Giriş hatası:', error.response?.data || error.message);
       alert("Giriş başarısız. Lütfen bilgilerinizi kontrol edin.");
     }
-    console.log('Giriş form verisi:', formData); 
   };
 
   return (
