@@ -3,6 +3,7 @@ from app.services.auth_service import verify_token
 from app.models.user_model import User
 from app.db.database import SessionLocal
 from sqlalchemy.orm import Session
+from app.services.auth_service import require_roles
 
 router = APIRouter(prefix="/api/users", tags=["Users"])
 
@@ -18,6 +19,23 @@ def get_my_profile(token_data: dict = Depends(verify_token), db: Session = Depen
     user = db.query(User).filter(User.email == token_data["username"]).first()
     return {
         "id": user.id,
+        "userName" : user.userName,
         "email": user.email,
         "role": user.role.value
     }
+
+@router.get("/")
+def get_all_users(
+    db: Session = Depends(get_db),
+    _: dict = Depends(require_roles(["admin"]))
+):
+    users = db.query(User).all()
+    return [
+        {
+            "id": user.id,
+            "email": user.email,
+            "role": user.role.value,
+            "userName": user.userName
+        }
+        for user in users
+    ]

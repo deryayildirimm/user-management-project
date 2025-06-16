@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import UserCard from "../components/UserCard";
 import axios from "axios";
 import "./Profile.css";
 
 function Profile() {
-  // const { id } = useParams();
+
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -22,16 +22,8 @@ function Profile() {
 
   return (
     <div className="profile-container">
-      <h2>Profil Bilgileri</h2>
-      <p>
-        <strong>Kullanıcı Adı:</strong> {user.userName}
-      </p>
-      <p>
-        <strong>Email:</strong> {user.email}
-      </p>
-      <p>
-        <strong>Rol:</strong> {user.role}
-      </p>
+      <h2>Profil</h2>
+      <UserCard user={user} />
     </div>
   );
 }

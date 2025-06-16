@@ -2,6 +2,7 @@ from pydantic import BaseModel, EmailStr
 from app.models.user_role_enum import UserRole
 
 class UserCreate(BaseModel):
+    userName : str
     email: EmailStr
     password: str
     role: UserRole = UserRole.USER  # varsayılan olarak user

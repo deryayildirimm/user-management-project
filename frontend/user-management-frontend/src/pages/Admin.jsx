@@ -1,17 +1,24 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "../context/AuthContext";
 import './Admin.css';
 
 function Admin() {
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
 
+  const { token } = useAuth();
+
   useEffect(() => {
-    axios.get("http://localhost:8000/api/users") // endpoint backend'de senin yapına göre güncellenir
-      .then(res => setUsers(res.data))
-      .catch(err => console.error("Kullanıcılar alınamadı", err));
-  }, []);
+    axios.get("http://localhost:8000/api/users", {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    .then(res => setUsers(res.data))
+    .catch(err => console.error("Kullanıcılar yüklenemedi", err));
+  }, [token]);
 
   const handleClick = (userId) => {
     navigate(`/profile/${userId}`);
