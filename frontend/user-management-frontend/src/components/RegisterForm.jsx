@@ -1,11 +1,11 @@
 import { useState } from "react";
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import FormContainer from '../components/FormContainer';
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import FormContainer from "../components/FormContainer";
 
 function RegisterForm({ onSubmit }) {
   const [formData, setFormData] = useState({
-    username: "",
+    userName: "",
     email: "",
     password: "",
   });
@@ -13,9 +13,9 @@ function RegisterForm({ onSubmit }) {
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setFormData({ 
-      ...formData, 
-      [e.target.name]: e.target.value 
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -23,17 +23,21 @@ function RegisterForm({ onSubmit }) {
     e.preventDefault();
 
     try {
-      await axios.post('http://localhost:8000/api/auth/register', formData);
-      alert('Kayıt başarılı! Giriş yapabilirsiniz.');
-      navigate('/login');
+      await axios.post("http://localhost:8000/api/auth/register", formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      alert("Kayıt başarılı! Giriş yapabilirsiniz.");
+      navigate("/login");
     } catch (error) {
-      console.error('Kayıt hatası:', error.response?.data || error.message);
-      alert('Kayıt başarısız. Lütfen tekrar deneyin.');
+      console.error("Kayıt hatası:", error.response?.data || error.message);
+      alert("Kayıt başarısız. Lütfen tekrar deneyin.");
     }
   };
 
   return (
-      <FormContainer title="Kayıt Ol">
+    <FormContainer title="Kayıt Ol">
       <form onSubmit={handleSubmit}>
         <input
           type="text"
