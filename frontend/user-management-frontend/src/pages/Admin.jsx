@@ -21,7 +21,7 @@ function Admin() {
   }, [token]);
 
   const handleClick = (userId) => {
-    navigate(`/profile/${userId}`);
+    navigate(`/admin/users/${userId}`);
   };
 
   return (

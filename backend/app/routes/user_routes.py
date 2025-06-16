@@ -39,3 +39,19 @@ def get_all_users(
         }
         for user in users
     ]
+
+@router.get("/{user_id}")
+def get_user_by_id(
+    user_id: int,
+    db: Session = Depends(get_db),
+    _: dict = Depends(require_roles(["admin"]))  # sadece admin görsün
+):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        return {"error": "User not found"}  # veya raise HTTPException
+    return {
+        "id": user.id,
+        "userName": user.userName,
+        "email": user.email,
+        "role": user.role.value
+    }
