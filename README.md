@@ -45,7 +45,7 @@ Amacı, kullanıcıların kayıt olup giriş yapabileceği, JWT doğrulamasıyla
 
 1. Bu repoyu klonlayın:
    ```bash
-   git clone https://github.com/kullaniciadi/user-management-project.git
+   git clone https://github.com/deryayildirimm/user-management-project.git
    cd user-management-project
 
 2. Docker ile projeyi başlatın:
