@@ -1,2 +1,6 @@
 fastapi
 uvicorn[standard]
+python-jose[cryptography]  # JWT işlemleri için
+passlib[bcrypt]==1.7.4        # Şifre hashing
+sqlalchemy                 # Veritabanı işlemleri
+pydantic[email]                  # Veri doğrulama için (FastAPI zaten kullanıyor)
